@@ -8,7 +8,7 @@
     delete and edit conditional overrides.
 '''
 
-from utils import log_msg, ADDON_ID, log_exception
+from .utils import log_msg, ADDON_ID, log_exception
 import xbmc
 import xbmcgui
 import xbmcvfs
@@ -44,7 +44,8 @@ class ConditionalBackgrounds(xbmcgui.WindowXMLDialog):
         self.backgrounds_control.reset()
 
         # Add CREATE entry at top of list
-        listitem = xbmcgui.ListItem(label=self.addon.getLocalizedString(32073), iconImage="-")
+        listitem = xbmcgui.ListItem(label=self.addon.getLocalizedString(32073))
+        listitem.setArt({'icon': "-"})
         desc = self.addon.getLocalizedString(32074)
         listitem.setProperty("description", desc)
         listitem.setProperty("Addon.Summary", desc)
@@ -57,7 +58,8 @@ class ConditionalBackgrounds(xbmcgui.WindowXMLDialog):
             label = background["name"]
             if time_in_range(background["startdate"], background["enddate"], datetime.now().strftime(DATE_FORMAT)):
                 label = label + " " + xbmc.getLocalizedString(461)
-            listitem = xbmcgui.ListItem(label=label, iconImage=background["background"])
+            listitem = xbmcgui.ListItem(label=label)
+            listitem.setArt({'icon': background["background"]})
             desc = "[B]%s:[/B] %s [CR][B]%s:[/B] %s" % (xbmc.getLocalizedString(19128),
                                                         background["startdate"],
                                                         xbmc.getLocalizedString(19129),

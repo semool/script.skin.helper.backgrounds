@@ -11,7 +11,7 @@ The most important behaviour of the smart shortcuts feature is that is pulls ima
 so you can have content based backgrounds.
 '''
 
-from utils import get_content_path, log_msg, log_exception, ADDON_ID
+from .utils import get_content_path, log_msg, log_exception, ADDON_ID
 import xbmc
 import xbmcvfs
 import xbmcaddon
@@ -30,7 +30,7 @@ class SmartShortCuts():
     def get_smartshortcuts_nodes(self):
         '''return all smartshortcuts paths for which an image should be generated'''
         nodes = []
-        for value in self.all_nodes.itervalues():
+        for value in self.all_nodes.values():
             nodes += value
         return nodes
 

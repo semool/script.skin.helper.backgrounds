@@ -6,7 +6,7 @@
 import xbmcgui
 import xbmc
 import sys
-import urllib
+import urllib.request, urllib.parse, urllib.error
 from traceback import format_exc
 
 ADDON_ID = "script.skin.helper.backgrounds"
@@ -14,7 +14,7 @@ ADDON_ID = "script.skin.helper.backgrounds"
 
 def log_msg(msg, loglevel=xbmc.LOGDEBUG):
     '''log to kodi logfile'''
-    if isinstance(msg, unicode):
+    if isinstance(msg, str):
         msg = msg.encode('utf-8')
     xbmc.log("Skin Helper Backgrounds --> %s" % msg, level=loglevel)
 
@@ -26,10 +26,10 @@ def log_exception(modulename, exceptiondetails):
 
 
 def urlencode(text):
-    '''helper to urlencode a (unicode) string'''
-    if isinstance(text, unicode):
+    '''helper to urlencode a (str) string'''
+    if isinstance(text, str):
         text = text.encode("utf-8")
-    blah = urllib.urlencode({'blahblahblah': text})
+    blah = urllib.parse.urlencode({'blahblahblah': text})
     blah = blah[13:]
     return blah
 

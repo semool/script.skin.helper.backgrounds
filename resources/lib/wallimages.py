@@ -8,7 +8,7 @@
     Default is 60 seconds.
 '''
 
-from utils import log_msg, log_exception
+from .utils import log_msg, log_exception
 import xbmc
 import xbmcvfs
 import random
@@ -202,14 +202,14 @@ class WallImages():
 
                 # save the files..
                 out_file = "%s%s.%s.jpg" % (WALLS_PATH, win_prop, count)
-                out_file = xbmc.translatePath(out_file).decode("utf-8")
+                out_file = xbmcvfs.translatePath(out_file).decode("utf-8")
                 if xbmcvfs.exists(out_file):
                     xbmcvfs.delete(out_file)
                     xbmc.sleep(500)
                 img_canvas.save(out_file, "JPEG")
 
                 out_file_bw = "%s%s_BW.%s.jpg" % (WALLS_PATH, win_prop, count)
-                out_file_bw = xbmc.translatePath(out_file_bw).decode("utf-8")
+                out_file_bw = xbmcvfs.translatePath(out_file_bw).decode("utf-8")
                 if xbmcvfs.exists(out_file_bw):
                     xbmcvfs.delete(out_file_bw)
                     xbmc.sleep(500)

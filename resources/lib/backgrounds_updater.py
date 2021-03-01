@@ -5,21 +5,20 @@
     script.skin.helper.backgrounds
     a helper service for Kodi skins providing rotating backgrounds
 '''
-
-import thread
+import _thread
 import threading
 import random
 import os
 from datetime import timedelta
-from utils import log_msg, log_exception, get_content_path, urlencode, ADDON_ID
+from resources.lib.utils import log_msg, log_exception, get_content_path, urlencode, ADDON_ID
 import xbmc
 import xbmcvfs
 import xbmcaddon
 import xbmcgui
 from simplecache import SimpleCache
-from conditional_backgrounds import get_cond_background
-from smartshortcuts import SmartShortCuts
-from wallimages import WallImages
+from .conditional_backgrounds import get_cond_background
+from .smartshortcuts import SmartShortCuts
+from .wallimages import WallImages
 from metadatautils import MetadataUtils
 
 
@@ -65,7 +64,7 @@ class BackgroundsUpdater(threading.Thread):
 
     def run(self):
         '''called to start our background service '''
-        log_msg("BackgroundsUpdater - started", xbmc.LOGNOTICE)
+        log_msg("BackgroundsUpdater - started", xbmc.LOGINFO)
         self.winpropcache()
         self.get_config()
         backgrounds_task_interval = 0
@@ -108,7 +107,7 @@ class BackgroundsUpdater(threading.Thread):
                 # Update wall images every interval (if enabled by skinner)
                 if self.enable_walls and self.walls_delay and (walls_task_interval >= self.walls_delay):
                     walls_task_interval = 0
-                    thread.start_new_thread(self.wallimages.update_wallbackgrounds, ())
+                    _thread.start_new_thread(self.wallimages.update_wallbackgrounds, ())
                     self.wallimages.update_manualwalls()
 
             self.kodimonitor.waitForAbort(1)
@@ -137,7 +136,7 @@ class BackgroundsUpdater(threading.Thread):
             # skinner can enable manual wall images generation so check for these settings
             # store in memory so wo do not have to query the skin settings too often
             if self.walls_delay:
-                for key in self.all_backgrounds_keys.iterkeys():
+                for key in self.all_backgrounds_keys.keys():
                     limitrange = xbmc.getInfoLabel("Skin.String(%s.EnableWallImages)" % key)
                     if limitrange:
                         self.wallimages.manual_walls[key] = int(limitrange)
@@ -154,7 +153,7 @@ class BackgroundsUpdater(threading.Thread):
         if self.exit:
             return
         self.winprops[key] = value
-        if isinstance(value, unicode):
+        if isinstance(value, str):
             value = value.encode("utf-8")
         self.win.setProperty(key, value)
 
@@ -166,12 +165,8 @@ class BackgroundsUpdater(threading.Thread):
         else:
             cache = self.cache.get(cachestr)
             if cache:
-                for key, value in cache.iteritems():
+                for key, value in cache.items():
                     if value:
-                        if isinstance(value, unicode):
-                            value = value.encode("utf-8")
-                        if isinstance(key, unicode):
-                            key = key.encode("utf-8")
                         self.win.setProperty(key, value)
 
     def get_images_from_vfspath(self, lib_path):
@@ -332,7 +327,7 @@ class BackgroundsUpdater(threading.Thread):
     def set_image(self, win_prop, image, fallback_image):
         ''' actually set the image window property'''
         if image:
-            for key, value in image.iteritems():  # image is actually a dict
+            for key, value in image.items():  # image is actually a dict
                 if key == "fanart":
                     self.set_winprop(win_prop, value)
                 else:  # set additional image properties
