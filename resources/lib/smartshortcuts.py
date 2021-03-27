@@ -53,7 +53,7 @@ class SmartShortCuts():
         '''build smart shortcuts for the emby addon'''
         if not self.all_nodes.get("emby"):
             nodes = []
-            if xbmc.getCondVisibility("System.HasAddon(plugin.video.emby) + Skin.HasSetting(SmartShortcuts.emby)"):
+            if xbmc.getCondVisibility("System.HasAddon(plugin.video.emby-next-gen) + Skin.HasSetting(SmartShortcuts.emby)"):
                 emby_property = self.bgupdater.win.getProperty("emby.nodes.total")
                 if emby_property:
                     content_strings = ["", ".recent", ".inprogress", ".unwatched", ".recentepisodes",
@@ -83,7 +83,7 @@ class SmartShortCuts():
                                     if "emby.nodes.%s" % count not in self.toplevel_nodes:
                                         self.toplevel_nodes.append("emby.nodes.%s" % count)
                                     self.create_smartshortcuts_submenu(
-                                        "emby.nodes.%s" % count, "special://home/addons/plugin.video.emby/icon.png")
+                                        "emby.nodes.%s" % count, "special://home/addons/plugin.video.emby-next-gen/icon.png")
                 log_msg("Generated smart shortcuts for emby nodes: %s" % nodes)
                 self.all_nodes["emby"] = nodes
 

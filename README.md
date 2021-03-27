@@ -249,7 +249,7 @@ ________________________________________________________________________________
 
 
 
-##### Smart shortcuts for Emby addon (plugin.video.emby)
+##### Smart shortcuts for Emby addon (plugin.video.emby-next-gen)
 Will only be available if this Skin Bool is true --> SmartShortcuts.emby
 
 Note that the Emby addon must be present on the system for this to function.
